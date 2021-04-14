@@ -27,6 +27,9 @@ global.board = ds_grid_create(3,3);
 ds_grid_clear(global.board, noone);
 
 player_chosen = noone;
+player_chosen_i = noone;
+player_chosen_j = noone;
+
 comp_chosen = noone;
 comp_chosen_i = noone;
 comp_chosen_j = noone;

@@ -67,6 +67,8 @@ switch(global.state) {
 			var checkedPaper = false;
 			var checkedScissors = false;
 			
+			var def_chosen = false;
+			
 			var maxNumTwos = 0;
 			
 			for (i = 0; i < ds_list_size(comp_hand); i++) {
@@ -92,6 +94,7 @@ switch(global.state) {
 									comp_chosen = card;
 									comp_chosen_i = j;
 									comp_chosen_j = k;
+									def_chosen = true;
 									break;
 								}
 								
@@ -100,6 +103,7 @@ switch(global.state) {
 									comp_chosen = card;
 									comp_chosen_i = j;
 									comp_chosen_j = k;
+									def_chosen = true;
 									break;
 								}
 								
@@ -113,6 +117,11 @@ switch(global.state) {
 								}
 							}
 						}
+						
+					} // end of iteration through squares
+					
+					if (def_chosen) {
+						break;	
 					}
 				
 					if (card.type == "rock") {
@@ -149,7 +158,7 @@ switch(global.state) {
 						comp_chosen_j = 2;
 					}
 				} else { // choosen an edge
-					var edge = getFreeCorner();
+					var edge = getFreeEdge();
 					if (edge == 0) {
 						comp_chosen_i = 1;
 						comp_chosen_j = 0;
@@ -185,8 +194,8 @@ switch(global.state) {
 			
 			// now that we finally have a comp_chosen
 			comp_chosen.target_y = 73;
-			var chosen_i = ds_list_find_index(comp_hand, comp_chosen);
-			ds_list_delete(comp_hand, chosen_i);
+			var chosen_index = ds_list_find_index(comp_hand, comp_chosen);
+			ds_list_delete(comp_hand, chosen_index);
 			wait_time = 30;
 		
 		} else if (comp_chosen.face_down == true && wait_time == 0) {
@@ -207,13 +216,13 @@ switch(global.state) {
 		
 		if (mouse_check_button_pressed(mb_left) && global.selected != noone) {
 			audio_play_sound(snd_cardMove, 0, false);
-			global.player_chosen = global.selected;
-			ds_list_delete(comp_hand, global.player_chosen);
-			global.player_chosen.target_x = 384;
-			global.player_chosen.target_y = 478;
+			player_chosen = global.selected;
 			
-			wait_time = 60;
-			global.state = global.state_check;
+			player_chosen.target_y = 694;
+			var chosen_index = ds_list_find_index(player_hand, player_chosen);
+			ds_list_delete(player_hand, chosen_index);
+			
+			global.state = global.state_tileSelect;
 		}
 		
 		break;
@@ -221,12 +230,86 @@ switch(global.state) {
 		
 	case global.state_tileSelect:
 	
+		
 	
 		break;
 		
 	
 	case global.state_compare:
-	
+		
+		// add dark opacity background
+		obj_darkBG.visible = true;
+		obj_darkBG.depth = 768;
+		
+		var new_card, board_card, i, j;
+		
+		if (turn == 0) {
+			
+			new_card = player_chosen;
+			i = player_chosen_i;
+			j = player_chosen_j;
+			
+		} else {
+			new_card = comp_chosen;
+			i = comp_chosen_i;
+			j = comp_chosen_j;
+		}
+		
+		board_card = ds_grid_get(global.board, i, j);
+		
+		// move cards
+		new_card.target_x = 306;
+		new_card.target_y = room_height * 0.5;
+		new_card.target_depth = 769;
+			
+		board_card.target_x = 466;
+		board_card.target_y = room_height * 0.5;
+		board_card.target_depth = 769;
+			
+		if (beats(new_card.type, board_card.type) == 1) {
+			
+			audio_play_sound(snd_cardMove, 0, false);
+				
+			// discard board card
+			ds_list_add(global.discard, board_card);
+			board_card.target_x = 683;
+			board_card.target_y = 383.5 - ((ds_list_size(global.discard) - 1) * 5);
+			board_card.selectable = false;
+			board_card.target_depth = board_card.target_y;
+			
+			// move new card to position
+			new_card.target_x = 228 + (i * 156);
+			new_card.target_y = 228 + (j * 156);
+			new_card.target_depth = new_card.target_y;
+				
+		} else {
+				
+			// discard new card (ties and when board card beats new card)
+			audio_play_sound(snd_cardMove, 0, false);
+				
+			// discard new card
+			ds_list_add(global.discard, new_card);
+			new_card.target_x = 683;
+			new_card.target_y = 383.5 - ((ds_list_size(global.discard) - 1) * 5);
+			new_card.selectable = false;
+			new_card.target_depth = new_card.target_y;
+			
+			// move board_card to position
+			board_card.target_x = 228 + (i * 156);
+			board_card.target_y = 228 + (j * 156);
+			board_card.target_depth = board_card.target_y;
+				
+		}
+		
+		global.selected = noone;
+		
+		player_chosen = noone;
+		player_chosen_i = noone;
+		player_chosen_j = noone;
+		
+		comp_chosen = noone;
+		comp_chosen_i = noone;
+		comp_chosen_j = noone;
 	
 		break;
 		
@@ -237,7 +320,7 @@ switch(global.state) {
 			global.comp_chosen.face_down = false;
 			wait_time = 60;
 		} else if (wait_time == 0) {
-			if (global.player_chosen.type == "rock") {
+			if (player_chosen.type == "rock") {
 				if (global.comp_chosen.type == "rock") {
 					// tie
 				
@@ -250,7 +333,7 @@ switch(global.state) {
 					global.player_score++;
 					audio_play_sound(snd_win, 0, false);
 				}
-			}  else if (global.player_chosen.type == "paper") {
+			}  else if (player_chosen.type == "paper") {
 				if (global.comp_chosen.type == "rock") {
 					// player wins
 					global.player_score++;
@@ -286,52 +369,6 @@ switch(global.state) {
 	
 	
 		break;
-		
-	case global.state_discard:
-		global.selected = noone;
-		player_chosen = noone;
-		comp_chosen = noone;
-		
-		while (ds_list_size(player_hand) > 0) {
-			if (wait_time == 0) {
-				var to_discard = player_hand[| 0];
-				ds_list_add(global.discard, to_discard);
-				ds_list_delete(player_hand, 0);
-				to_discard.target_x = 683;
-				to_discard.target_y = 383.5 - ((ds_list_size(global.discard) - 1) * 5);
-				to_discard.selectable = false;
-				to_discard.target_depth = to_discard.target_y;
-				audio_play_sound(snd_cardMove, 0, false);
-				wait_time = 30;
-			}
-			if (wait_time > 0) wait_time--;
-		}
-		
-		while (ds_list_size(comp_hand) > 0) {
-			if (wait_time == 0) {
-				var to_discard = comp_hand[| 0];
-				ds_list_add(global.discard, to_discard);
-				ds_list_delete(comp_hand, 0);
-				to_discard.target_x = 683;
-				to_discard.target_y = 383.5 - ((ds_list_size(global.discard) - 1) * 5);
-				to_discard.face_down = false;
-				to_discard.target_depth = to_discard.target_y;
-				to_discard.selectable = false;
-				audio_play_sound(snd_cardMove, 0, false);
-				wait_time = 30;
-			}
-			if (wait_time > 0) wait_time--;
-		}
-		show_debug_message(string(ds_list_size(global.discard)));
-		if (ds_list_size(global.discard) == 24) {
-			ds_list_shuffle(global.discard);
-			global.state = global.state_reshuffle;
-		} else {
-			global.state = global.state_deal;	
-		}
-	
-		break;
-		
 	
 	case global.state_reshuffle:
 		
