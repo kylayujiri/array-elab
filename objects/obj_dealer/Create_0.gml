@@ -4,14 +4,14 @@ global.comp_score = 0;
 global.turn = 0;
 
 global.state_start = 0;
-global.state_computer = 2;
-global.state_cardSelect = 3;
-global.state_tileSelect = 4;
+global.state_computer = 1;
+global.state_cardSelect = 2;
+global.state_tileSelect = 3;
+global.state_compare = 4;
 global.state_check = 5;
-global.state_discard = 6;
+global.state_deal = 6;
 global.state_reshuffle = 7;
-global.state_win = 8;
-global.state_lose = 9;
+global.state_end = 8;
 
 global.state_reshuffle = 5;
 
@@ -23,8 +23,13 @@ global.discard = ds_list_create();
 
 global.selected = noone;
 
+global.board = ds_grid_create(3,3);
+ds_grid_clear(global.board, noone);
+
 player_chosen = noone;
 comp_chosen = noone;
+comp_chosen_i = noone;
+comp_chosen_j = noone;
 
 player_hand = ds_list_create();
 comp_hand = ds_list_create();

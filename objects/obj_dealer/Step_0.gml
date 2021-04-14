@@ -49,7 +49,155 @@ switch(global.state) {
 		
 		
 	case global.state_computer:
-	
+		// look at each card and test each valid space
+		
+		// choices from most optimal to least optimal
+			// 3 in a row (win)
+			// block a player win
+			// move that enables multiple two in a rows
+				// includes when the third is beatable by the type we are looking at
+				// (e.g. rock scissors rock can become rock rock rock)
+			// move that enables 1 two in a row w/ a valid third
+				// analyze as if player would put in the third and see which is best
+			// move that that enables a two in a row w/o a valid third
+			
+		if (comp_chosen == noone) {
+			
+			var checkedRock = false;
+			var checkedPaper = false;
+			var checkedScissors = false;
+			
+			var maxNumTwos = 0;
+			
+			for (i = 0; i < ds_list_size(comp_hand); i++) {
+				// for each card in the hand
+				
+				var card = comp_hand[| i];
+				
+				if (card.type == "rock" && checkedRock) {
+					continue;	
+				} else if (card.type == "paper" && checkedPaper) {
+					continue;	
+				} else if (card.type == "scissors" && checkedScissors) {
+					continue;	
+				} else {
+					
+					// for every valid square
+					for (j = 0; j < 3; j++) {
+						for (k = 0; k < 3; k++) {
+							if (canPlace(j, k, card.type)) {
+								
+								// can we win
+								if (three(j, k, card.type, global.turn)) {
+									comp_chosen = card;
+									comp_chosen_i = j;
+									comp_chosen_j = k;
+									break;
+								}
+								
+								// can we block the player from winning
+								if (three(j, k, "rock", 0) || three(j, k, "paper", 0) || three(j, k, "scissors", 0)) {
+									comp_chosen = card;
+									comp_chosen_i = j;
+									comp_chosen_j = k;
+									break;
+								}
+								
+								// count multiple twos
+								var numTwos = countTwos(j, k, card.type, global.turn);
+								if (numTwos > maxNumTwos) {
+									maxNumTwos = numTwos;
+									comp_chosen = card;
+									comp_chosen_i = j;
+									comp_chosen_j = k;
+								}
+							}
+						}
+					}
+				
+					if (card.type == "rock") {
+						checkedRock = true;
+					} else if (card.type == "paper" && checkedPaper) {
+						checkedPaper = true;
+					} else if (card.type == "scissors" && checkedScissors) {
+						checkedScissors = true;
+					}
+				}
+				
+			} // end iteration through hand
+			
+			// after the for loop is done, if we still have not chosen (board is probably p empty)
+			if (comp_chosen == noone) {
+				if (ds_grid_get(global.board, 1, 1) == noone) {
+					comp_chosen = comp_hand[| irandom(ds_list_size(comp_hand) - 1)];
+					comp_chosen_i = 1;
+					comp_chosen_j = 1;
+				} else if (cornersTaken() < 2) {
+					comp_chosen = comp_hand[| irandom(ds_list_size(comp_hand) - 1)];
+					var corner = getFreeCorner();
+					if (corner == 0) {
+						comp_chosen_i = 0;
+						comp_chosen_j = 0;
+					} else if (corner == 1) {
+						comp_chosen_i = 2;
+						comp_chosen_j = 0;
+					} else if (corner == 2) {
+						comp_chosen_i = 0;
+						comp_chosen_j = 2;
+					} else {
+						comp_chosen_i = 2;
+						comp_chosen_j = 2;
+					}
+				} else { // choosen an edge
+					var edge = getFreeCorner();
+					if (edge == 0) {
+						comp_chosen_i = 1;
+						comp_chosen_j = 0;
+					} else if (edge == 1) {
+						comp_chosen_i = 2;
+						comp_chosen_j = 1;
+					} else if (edge == 2) {
+						comp_chosen_i = 1;
+						comp_chosen_j = 2;
+					} else {
+						comp_chosen_i = 0;
+						comp_chosen_j = 1;
+					}
+				}
+			}
+			
+			if (comp_chosen == noone) {
+				// if we STILL haven't chosen one, just choose the first valid one
+				for (i = 0; i < 3; i++) {
+					for (j = 0; j < 3; j++) {
+						for (k = 0; k < ds_list_size(comp_hand); k++) {
+							var card = comp_hand[| k];
+							if (canPlace(i, j, card.type)) {
+								comp_chosen = card;
+								comp_chosen_i = i;
+								comp_chosen_j = j;
+							}
+						}
+					}
+				}
+			
+			}
+			
+			// now that we finally have a comp_chosen
+			comp_chosen.target_y = 73;
+			var chosen_i = ds_list_find_index(comp_hand, comp_chosen);
+			ds_list_delete(comp_hand, chosen_i);
+			wait_time = 30;
+		
+		} else if (comp_chosen.face_down == true && wait_time == 0) {
+			comp_chosen.face_down = false;
+			wait_time = 30;
+		} else {
+			if (ds_grid_get(global.board, comp_chosen_i, comp_chosen_j) != noone) {
+				global.state = global.state_compare;	
+			}
+		}
+		
 		
 	
 		break;
@@ -72,6 +220,12 @@ switch(global.state) {
 		
 		
 	case global.state_tileSelect:
+	
+	
+		break;
+		
+	
+	case global.state_compare:
 	
 	
 		break;
@@ -127,7 +281,11 @@ switch(global.state) {
 		}
 		
 		break;
-		
+	
+	case global.state_deal:
+	
+	
+		break;
 		
 	case global.state_discard:
 		global.selected = noone;
@@ -199,6 +357,12 @@ switch(global.state) {
 		
 		break;
 	
+	
+	case global.state_end:
+		
+		
+		break;
+		
 
 }
 
