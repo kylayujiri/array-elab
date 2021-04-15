@@ -590,6 +590,9 @@ switch(global.state) {
 				ds_list_delete(global.discard, 0);
 			}
 			wait_time = 30;
+			
+			ds_list_shuffle(global.deck);
+			
 			global.state = global.state_deal;
 			audio_stop_sound(snd_shuffle);
 		}

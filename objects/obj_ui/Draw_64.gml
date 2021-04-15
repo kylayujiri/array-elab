@@ -9,18 +9,18 @@ if (global.state == global.state_end) {
 
 	if (global.result == 1) {
 		
-		draw_text(room_width * 0.5, room_height * 0.5, "You win!");
+		draw_text(room_width * 0.5, room_height * 0.5 - 50, "You win!");
 	
 	} else if (global.result == -1) {
 	
-		draw_text(room_width * 0.5, room_height * 0.5, "The computer wins!");
+		draw_text(room_width * 0.5, room_height * 0.5 - 50, "The computer wins!");
 	
 	} else {
 	
-		draw_text(room_width * 0.5, room_height * 0.5, "It's a tie!");
+		draw_text(room_width * 0.5, room_height * 0.5 - 50, "It's a tie!");
 	
 	}
 	
-	draw_text(room_width * 0.5, room_height * 0.5 + 100, "Press 'R' to play again.");
+	draw_text(room_width * 0.5, room_height * 0.5 + 50, "Press 'R' to play again.");
 	
 }
