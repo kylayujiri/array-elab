@@ -1,10 +1,10 @@
 {
   "spriteId": {
-    "name": "spr_darkBG",
-    "path": "sprites/spr_darkBG/spr_darkBG.yy",
+    "name": "spr_square",
+    "path": "sprites/spr_square/spr_square.yy",
   },
   "solid": false,
-  "visible": false,
+  "visible": true,
   "spriteMaskId": null,
   "persistent": false,
   "parentObjectId": null,
@@ -21,7 +21,8 @@
   "physicsKinematic": false,
   "physicsShapePoints": [],
   "eventList": [
-    {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"parent":{"name":"obj_darkBG","path":"objects/obj_darkBG/obj_darkBG.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":0,"eventType":0,"collisionObjectId":null,"parent":{"name":"obj_square","path":"objects/obj_square/obj_square.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
+    {"isDnD":false,"eventNum":0,"eventType":3,"collisionObjectId":null,"parent":{"name":"obj_square","path":"objects/obj_square/obj_square.yy",},"resourceVersion":"1.0","name":"","tags":[],"resourceType":"GMEvent",},
   ],
   "properties": [],
   "overriddenProperties": [],
@@ -30,7 +31,7 @@
     "path": "folders/Objects.yy",
   },
   "resourceVersion": "1.0",
-  "name": "obj_darkBG",
+  "name": "obj_square",
   "tags": [],
   "resourceType": "GMObject",
 }

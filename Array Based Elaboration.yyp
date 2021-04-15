@@ -1,7 +1,7 @@
 {
   "resources": [
     {"id":{"name":"spr_rock","path":"sprites/spr_rock/spr_rock.yy",},"order":0,},
-    {"id":{"name":"spr_playerTile","path":"sprites/spr_playerTile/spr_playerTile.yy",},"order":5,},
+    {"id":{"name":"checkWin","path":"scripts/checkWin/checkWin.yy",},"order":2,},
     {"id":{"name":"obj_card","path":"objects/obj_card/obj_card.yy",},"order":0,},
     {"id":{"name":"board","path":"sprites/board/board.yy",},"order":4,},
     {"id":{"name":"spr_scissors","path":"sprites/spr_scissors/spr_scissors.yy",},"order":3,},
@@ -12,11 +12,12 @@
     {"id":{"name":"spr_cardBack","path":"sprites/spr_cardBack/spr_cardBack.yy",},"order":1,},
     {"id":{"name":"spr_darkBG","path":"sprites/spr_darkBG/spr_darkBG.yy",},"order":7,},
     {"id":{"name":"snd_win","path":"sounds/snd_win/snd_win.yy",},"order":2,},
+    {"id":{"name":"obj_square","path":"objects/obj_square/obj_square.yy",},"order":4,},
     {"id":{"name":"obj_dealer","path":"objects/obj_dealer/obj_dealer.yy",},"order":1,},
     {"id":{"name":"snd_cardMove","path":"sounds/snd_cardMove/snd_cardMove.yy",},"order":0,},
     {"id":{"name":"snd_shuffle","path":"sounds/snd_shuffle/snd_shuffle.yy",},"order":1,},
-    {"id":{"name":"spr_compTile","path":"sprites/spr_compTile/spr_compTile.yy",},"order":6,},
-    {"id":{"name":"fnt_score","path":"fonts/fnt_score/fnt_score.yy",},"order":0,},
+    {"id":{"name":"spr_square","path":"sprites/spr_square/spr_square.yy",},"order":6,},
+    {"id":{"name":"fnt_mont","path":"fonts/fnt_mont/fnt_mont.yy",},"order":0,},
     {"id":{"name":"obj_darkBG","path":"objects/obj_darkBG/obj_darkBG.yy",},"order":3,},
     {"id":{"name":"beats","path":"scripts/beats/beats.yy",},"order":1,},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},"order":0,},
@@ -67,7 +68,7 @@
   ],
   "IncludedFiles": [],
   "MetaData": {
-    "IDEVersion": "2.3.1.542",
+    "IDEVersion": "2.3.2.558",
   },
   "resourceVersion": "1.4",
   "name": "Array Based Elaboration",

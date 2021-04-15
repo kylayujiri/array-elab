@@ -1,11 +1,26 @@
 draw_set_color(c_white);
 
-draw_set_halign(fa_left);
+draw_set_font(fnt_mont);
 
-draw_set_valign(fa_top);
-draw_set_font(fnt_score);
-draw_text(0 + x_offset, 0 + y_offset, global.comp_score);
+draw_set_halign(fa_center);
+draw_set_valign(fa_center);
 
-draw_set_valign(fa_bottom);
-draw_set_font(fnt_score);
-draw_text(0 + x_offset, room_height - y_offset, global.player_score);
+if (global.state == global.state_end) {
+
+	if (global.result == 1) {
+		
+		draw_text(room_width * 0.5, room_height * 0.5, "You win!");
+	
+	} else if (global.result == -1) {
+	
+		draw_text(room_width * 0.5, room_height * 0.5, "The computer wins!");
+	
+	} else {
+	
+		draw_text(room_width * 0.5, room_height * 0.5, "It's a tie!");
+	
+	}
+	
+	draw_text(room_width * 0.5, room_height * 0.5 + 100, "Press 'R' to play again.");
+	
+}
