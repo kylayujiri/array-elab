@@ -615,7 +615,7 @@ switch(global.state) {
 		obj_darkBG.visible = true;
 		
 		if (mouse_check_button_pressed(mb_left)) {
-			game_restart();	
+			restart();
 		}
 		
 		break;

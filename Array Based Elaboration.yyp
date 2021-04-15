@@ -12,6 +12,7 @@
     {"id":{"name":"spr_cardBack","path":"sprites/spr_cardBack/spr_cardBack.yy",},"order":1,},
     {"id":{"name":"spr_darkBG","path":"sprites/spr_darkBG/spr_darkBG.yy",},"order":7,},
     {"id":{"name":"snd_win","path":"sounds/snd_win/snd_win.yy",},"order":2,},
+    {"id":{"name":"restart","path":"scripts/restart/restart.yy",},"order":3,},
     {"id":{"name":"obj_square","path":"objects/obj_square/obj_square.yy",},"order":4,},
     {"id":{"name":"obj_dealer","path":"objects/obj_dealer/obj_dealer.yy",},"order":1,},
     {"id":{"name":"snd_cardMove","path":"sounds/snd_cardMove/snd_cardMove.yy",},"order":0,},

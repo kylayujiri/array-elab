@@ -25,4 +25,7 @@ if (global.state == global.state_end) {
 	}
 	
 	
+} else {
+	sound_has_played = false;	
+	text_to_draw = "";
 }
