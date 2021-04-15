@@ -401,7 +401,7 @@ switch(global.state) {
 				ds_list_add(global.discard, chosen_board_card);
 				chosen_board_card.target_x = 694.5;
 				chosen_board_card.target_y = room_height * 0.5 - ((ds_list_size(global.discard) - 1) * 5);
-				chosen_board_card.target_depth = card_depth;
+				chosen_board_card.target_depth = 0 - ds_list_size(global.discard);
 				chosen_board_card.owner = noone;
 			
 				// move chosen card to position
@@ -425,7 +425,7 @@ switch(global.state) {
 				chosen.target_x = 694.5;
 				chosen.target_y = room_height * 0.5 - ((ds_list_size(global.discard) - 1) * 5);
 				chosen.selectable = false;
-				chosen.target_depth = card_depth;
+				chosen.target_depth = 0 - ds_list_size(global.discard);
 				chosen.owner = noone;
 			
 				// move board_card to board position
