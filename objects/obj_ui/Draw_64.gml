@@ -9,6 +9,6 @@ if (global.state == global.state_end) {
 
 	draw_text(room_width * 0.5, room_height * 0.5 - 50, text_to_draw);
 	
-	draw_text(room_width * 0.5, room_height * 0.5 + 50, "Press 'R' to play again.");
+	draw_text(room_width * 0.5, room_height * 0.5 + 50, "Click anywhere to play again.");
 	
 }
