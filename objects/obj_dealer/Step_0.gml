@@ -282,6 +282,7 @@ switch(global.state) {
 		// end of if chosen == noone
 		} else if (chosen.face_down == true && wait_time == 0) {
 			
+			audio_play_sound(snd_cardMove, 0, false);
 			chosen.face_down = false;
 			wait_time = 30;
 			
@@ -295,6 +296,8 @@ switch(global.state) {
 			} else {
 				
 				// move card directly to the board
+				audio_play_sound(snd_cardMove, 0, false);
+				
 				chosen.target_x = 228 + (chosen_i * 156);
 				chosen.target_y = 228 + (chosen_j * 156);
 				chosen.target_depth = card_depth;
@@ -347,6 +350,8 @@ switch(global.state) {
 				global.state = global.state_compare;
 			} else {
 				// move card directly to the board
+				audio_play_sound(snd_cardMove, 0, false);
+				
 				chosen.target_x = 228 + (chosen_i * 156);
 				chosen.target_y = 228 + (chosen_j * 156);
 				chosen.target_depth = card_depth;
@@ -544,6 +549,8 @@ switch(global.state) {
 			
 			if (global.turn == 0) {
 				
+				audio_play_sound(snd_cardMove, 0, false);
+				
 				ds_list_add(player_hand, toAdd);
 				toAdd.owner = 0;
 				toAdd.target_x = 272 + (max(0, ds_list_size(player_hand) - 1) * 112);
@@ -553,6 +560,8 @@ switch(global.state) {
 				toAdd.target_depth = card_depth;
 			
 			} else {
+				
+				audio_play_sound(snd_cardMove, 0, false);
 			
 				ds_list_add(comp_hand, toAdd);
 				toAdd.owner = 1;
